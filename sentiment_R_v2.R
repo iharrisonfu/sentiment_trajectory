@@ -2,7 +2,7 @@ library(lcmm)
 library(readxl)
 library("writexl")
 
-data <- read_excel("C:/Users/Harrison/Documents/HKU/2024_07_24_heterogeneity_gpt/data/conv_stage_sentiment_score_avg_allIssue.xlsx")
+data <- read_excel("conv_stage_sentiment_score_avg_allIssue.xlsx")
 head(data)
 
 # Convert conversationId to a numeric factor
@@ -31,11 +31,8 @@ model5 <- lcmm(fixed = stage_sentiment_score_avg ~ stage_label_numeric + I(stage
 
 model6 <- lcmm(fixed = stage_sentiment_score_avg ~ stage_label_numeric + I(stage_label_numeric^2), random = ~ 1, mixture = ~ stage_label_numeric + I(stage_label_numeric^2), ng=6, data=data, subject = 'conversationId_numeric', link = "beta", B = model1)
 
-#model7 <- lcmm(fixed = stage_sentiment_score_avg ~ stage_label_numeric + I(stage_label_numeric^2), random = ~ 1, mixture = ~ stage_label_numeric + I(stage_label_numeric^2), ng=7, data=data, subject = 'conversationId_numeric', link = "beta", B = model1)
-
 # prediction and classification
 pred3 <- predictY(model3, data, var.time = "stage_label_numeric")
-#plot(pred3, col=c("red", "navy", "yellow"), lty=1, lwd=5, bty="l", type="l", shades = TRUE, ylab="pred", legend=NULL, main="Predicted trajectories", ylim=c(-1,0))
 stage_label_numeric <- data$stage_label_numeric
 pred_values <- as.data.frame(pred3$pred)
 
@@ -51,7 +48,6 @@ sorted_pred_values <- pred_df_sorted[, -1]  # Exclude the stage_label_numeric co
 
 # alternative way to draw the lines
 plot(sorted_stage_label_numeric, sorted_pred_values[, 1], type="l", col="navy", lty=1, lwd=2, ylab="Sentiment Score", ylim=c(-1, 0), xlab="Epoch", cex.lab = 0.8, cex.axis = 0.7, cex.main = 0.8)
-# , main="Latent Class Trajectories of Sentiment Scores"
 lines(sorted_stage_label_numeric, sorted_pred_values[, 2], col="red", lty=1, lwd=2)
 lines(sorted_stage_label_numeric, sorted_pred_values[, 3], col="orange", lty=1, lwd=2)
 legend(x="topleft", legend=c("class1", "class2", "class3"), col=c("navy", "red", "orange"), lty=c(1,1,1), lwd=c(2,2,2), cex=0.8)
@@ -66,6 +62,6 @@ class_membership <- predictClass(model3, data)
 class_counts <- class_membership %>% count(class)
 
 # export class_membership to excel
-write_xlsx(class_membership, "C:/Users/Harrison/Documents/HKU/2024_07_24_heterogeneity_gpt/data/class_membership_20250125.xlsx")
+write_xlsx(class_membership, "xxx")
 
-write_xlsx(data, "C:/Users/Harrison/Documents/HKU/2024_07_24_heterogeneity_gpt/data/conv_stage_avg_sentiment_score_allIssue_r.xlsx")
+write_xlsx(data, "xxx")

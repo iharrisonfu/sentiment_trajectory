@@ -1,1 +1,1 @@
-Codes for the study "A trajectory-based analysis of heterogeneity in sentiment changes among help-seekers in text-based counselling".
+Codes for the study "Assessing Heterogeneity in Sentiment Changes in Text-Based Counselling: Latent Class Trajectory Analysis".
